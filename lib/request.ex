@@ -1,6 +1,6 @@
 defmodule ExRiakCS.Request do
   import ExRiakCS.Config
-  alias ExRiakCS.Auth
+  import ExRiakCS.Utils
 
   def post_request(path, params \\ %{}, headers \\ %{}, body \\ []) do
     {:ok, request} =
@@ -14,11 +14,7 @@ defmodule ExRiakCS.Request do
   end
 
   defp request_url(path, request_type, headers, params) do
-    encoded_params =
-      path
-      |> Auth.signature_params(request_type, headers)
-      |> Map.merge(params, fn(_k, v1, _v2) -> v1 end)
-      |> URI.encode_query()
-    base_url <> path <> "&" <> encoded_params
+    params = encode_params(path, request_type, headers, params)
+    base_url <> path <> "&" <> params
   end
 end
