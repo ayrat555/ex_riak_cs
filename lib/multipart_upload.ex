@@ -8,17 +8,22 @@ defmodule ExRiakCS.MultipartUpload do
     path = "/#{bucket}/#{key}?uploads"
     headers = %{"Content-Type" => content_type,
                 "x-amz-acl" => acl}
-    case  Request.post_request(path, %{}, headers) do
-      {:ok, body} -> {:ok, parse_upload_id(body)}
-      {:error, body} -> {:error, body}
+    case Request.post_request(path, %{}, headers) do
+      %{status_code: 200, body: body} -> {:ok, parse_upload_id(body)}
+      %{status_code: code, body: body} -> {:error, code, body}
+    end
+  end
+
+  def upload_part(bucket, key, upload_id, number, data) do
+    path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
+    case Request.put_request(path, %{}, %{}, data) do
+      %{status_code: 200, headers: headers} -> {:ok, etag(headers)}
+      %{status_code: code, body: body} -> {:error, code, body}
     end
   end
 
   def signed_part_url(bucket, key, upload_id, number) do
-    signature_path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
-    path = "/#{bucket}/#{key}"
-    params = encode_params(signature_path, "PUT", %{}, %{partNumber: Integer.to_string(number),
-                                                         uploadId: upload_id})
-    base_url <> path <> "?" <> params
+    path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
+    request_url(path, "PUT")
   end
 end

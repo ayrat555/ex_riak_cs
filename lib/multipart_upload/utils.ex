@@ -6,4 +6,9 @@ defmodule ExRiakCS.MultipartUpload.Utils do
       |> SweetXml.sigil_x()
     xml |> SweetXml.xpath(x_path)
   end
+
+  def etag(headers) do
+    {"ETag", etag} = List.keyfind(headers, "ETag", 0)
+    etag
+  end
 end

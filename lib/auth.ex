@@ -4,9 +4,9 @@ defmodule ExRiakCS.Auth do
 
   def signature_params(path, request_type, headers \\ %{}, exp_date \\ expiration_date(exp_days)) do
     %{
-      AWSAccessKeyId: key_id,
-      Expires: exp_date,
-      Signature: signature(request_type, exp_date, path, headers)
+      "AWSAccessKeyId": key_id,
+      "Expires": exp_date,
+      "Signature": signature(request_type, exp_date, path, headers)
       }
   end
 
