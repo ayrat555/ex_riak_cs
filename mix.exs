@@ -1,4 +1,4 @@
-defmodule ExRiakCs.Mixfile do
+defmodule ExRiakCS.Mixfile do
   use Mix.Project
 
   def project do

@@ -17,7 +17,7 @@ defmodule ExRiakCS.MultipartUpload do
   def upload_part(bucket, key, upload_id, number, data) do
     path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
     case Request.put_request(path, %{}, %{}, data) do
-      %{status_code: 200, headers: headers} -> {:ok, etag(headers)}
+      %{status_code: 200, headers: headers} -> {:ok, part_etag(headers)}
       %{status_code: code, body: body} -> {:error, code, body}
     end
   end
@@ -25,5 +25,14 @@ defmodule ExRiakCS.MultipartUpload do
   def signed_part_url(bucket, key, upload_id, number) do
     path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
     request_url(path, "PUT")
+  end
+
+  def complete_multipart_upload(bucket, key, upload_id, parts) do
+    path = "/#{bucket}/#{key}?uploadId=#{upload_id}"
+    xml_parts_body = xml_parts(parts)
+    case Request.post_request(path, %{}, %{"Content-Type" => ""}, xml_parts_body) do
+      %{status_code: 200, body: body} -> {:ok, parse_file_etag(body)}
+      %{status_code: code, body: body} -> {:error, code, body}
+    end
   end
 end
