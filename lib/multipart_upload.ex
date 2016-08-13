@@ -10,7 +10,7 @@ defmodule ExRiakCS.MultipartUpload do
                 "x-amz-acl" => acl}
     case Request.post_request(path, %{}, headers) do
       %{status_code: 200, body: body} -> {:ok, parse_upload_id(body)}
-      %{status_code: code, body: body} -> {:error, code, body}
+      %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end
 
@@ -18,7 +18,7 @@ defmodule ExRiakCS.MultipartUpload do
     path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
     case Request.put_request(path, %{}, %{}, data) do
       %{status_code: 200, headers: headers} -> {:ok, part_etag(headers)}
-      %{status_code: code, body: body} -> {:error, code, body}
+      %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end
 
@@ -32,7 +32,7 @@ defmodule ExRiakCS.MultipartUpload do
     xml_parts_body = xml_parts(parts)
     case Request.post_request(path, %{}, %{"Content-Type" => ""}, xml_parts_body) do
       %{status_code: 200, body: body} -> {:ok, parse_file_etag(body)}
-      %{status_code: code, body: body} -> {:error, code, body}
+      %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end
 
@@ -40,7 +40,7 @@ defmodule ExRiakCS.MultipartUpload do
     path = "/#{bucket}/#{key}?uploadId=#{upload_id}"
     case Request.delete_request(path) do
       %{status_code: 204} -> :ok
-      %{status_code: code, body: body} -> {:error, code, body}
+      %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end
 
@@ -48,7 +48,7 @@ defmodule ExRiakCS.MultipartUpload do
     path = "/#{bucket}/?uploads"
     case Request.get_request(path) do
       %{status_code: 200, body: body} -> {:ok, parse_uploads(body)}
-      %{status_code: code, body: body} -> {:error, code, body}
+      %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end
 end

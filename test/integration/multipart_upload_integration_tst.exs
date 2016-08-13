@@ -29,7 +29,7 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
   end
 
   test "returns error on aborting not existing multipart upload" do
-    {:error, 404, _} = MultipartUpload.abort_multipart_upload(@bucket, @key, "upload_id")
+    {:error, {404, _}} = MultipartUpload.abort_multipart_upload(@bucket, @key, "upload_id")
   end
 
   test "returns multipart uploads" do
