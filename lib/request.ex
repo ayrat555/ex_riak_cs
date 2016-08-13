@@ -33,4 +33,15 @@ defmodule ExRiakCS.Request do
       |> HTTPoison.delete(headers)
     %{status_code: code, body: body, headers: headers}
   end
+
+  def get_request(path, params \\ %{}, headers \\ %{}) do
+    {:ok, %HTTPoison.Response{
+      status_code: code,
+      body: body,
+      headers: headers}} =
+      path
+      |> request_url("GET", headers, params)
+      |> HTTPoison.get(headers)
+    %{status_code: code, body: body, headers: headers}
+  end
 end
