@@ -51,4 +51,12 @@ defmodule ExRiakCS.MultipartUpload do
       %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end
+
+  def list_parts(bucket, key, upload_id) do
+    path = "/#{bucket}/#{key}?uploadId=#{upload_id}"
+    case Request.get_request(path) do
+      %{status_code: 200, body: body} -> {:ok, parse_parts(body)}
+      %{status_code: code, body: body} -> {:error, {code, body}}
+    end
+  end
 end

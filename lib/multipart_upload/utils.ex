@@ -2,32 +2,58 @@ defmodule ExRiakCS.MultipartUpload.Utils do
   import SweetXml
 
   def parse_upload_id(xml) do
-    xml |> xpath(~x"//InitiateMultipartUploadResult/UploadId/text()")
+    xml |> xpath(~x"//InitiateMultipartUploadResult/UploadId/text()"s)
   end
 
   def parse_file_etag(xml) do
-    xml |> xpath(~x"//CompleteMultipartUploadResult/ETag/text()")
+    xml |> xpath(~x"//CompleteMultipartUploadResult/ETag/text()"s)
   end
 
   def parse_uploads(xml) do
     xml |> xmap(
-      bucket:  ~x"//ListMultipartUploadsResult/Bucket/text()",
+      bucket:  ~x"//ListMultipartUploadsResult/Bucket/text()"s,
       uploads: [
         ~x"//ListMultipartUploadsResult/Upload"l,
         key: ~x"./Key/text()",
-        upload_id: ~x"./UploadId/text()",
-        initiated: ~x"./Initiated/text()",
+        upload_id: ~x"./UploadId/text()"s,
+        initiated: ~x"./Initiated/text()"s,
         initiator: [
           ~x"./Initiator",
-          id:  ~x"./ID/text()",
-          name:  ~x"./DisplayName/text()"
+          id:  ~x"./ID/text()"s,
+          name:  ~x"./DisplayName/text()"s
         ],
         owner: [
            ~x"./Owner",
-          id:  ~x"./ID/text()",
-          name:  ~x"./DisplayName/text()"
+          id:  ~x"./ID/text()"s,
+          name:  ~x"./DisplayName/text()"s
         ],
-        storage_class: ~x"./StorageClass/text()"
+        storage_class: ~x"./StorageClass/text()"s
+      ]
+    )
+  end
+
+  def parse_parts(xml) do
+    xml |> xmap(
+      bucket:  ~x"//ListPartsResult/Bucket/text()"s,
+      key:  ~x"//ListPartsResult/Key/text()"s,
+      upload_id:  ~x"//ListPartsResult/UploadId/text()"s,
+      initiator: [
+        ~x"./Initiator",
+        id:  ~x"./ID/text()"s,
+        name:  ~x"./DisplayName/text()"s
+      ],
+      owner: [
+         ~x"./Owner",
+        id:  ~x"./ID/text()"s,
+        name:  ~x"./DisplayName/text()"s
+      ],
+      storage_class: ~x"./StorageClass/text()"s,
+      parts: [
+        ~x"./Part"l,
+        number: ~x"./PartNumber/text()"i,
+        last_modified: ~x"./LastModified/text()"s,
+        etag: ~x"./ETag/text()"s,
+        size: ~x"./Size/text()"i,
       ]
     )
   end

@@ -34,7 +34,7 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
 
   test "returns multipart uploads" do
     {:ok, uploads} = MultipartUpload.list_multipart_uploads(@bucket)
-    assert uploads.bucket
+    assert uploads.bucket == @bucket
     upload = hd(uploads.uploads)
     assert upload.initiated
     assert upload.key
@@ -43,5 +43,26 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
     assert upload.owner.id
     assert upload.initiator.name
     assert upload.initiator.id
+  end
+
+  test "lists parts" do
+    {:ok, upload_id} = MultipartUpload.initiate_multipart_upload(@bucket, @key, "audio/mpeg")
+    MultipartUpload.upload_part(@bucket, @key, upload_id, 1, "part 1")
+    MultipartUpload.upload_part(@bucket, @key, upload_id, 2, "part 2")
+    {:ok, parts} = MultipartUpload.list_parts(@bucket, @key, upload_id)
+    assert parts.bucket == @bucket
+    assert parts.key == @key
+    assert parts.upload_id == upload_id
+    assert parts.owner.name
+    assert parts.owner.id
+    assert parts.initiator.name
+    assert parts.initiator.id
+    assert parts.storage_class
+    assert Enum.count(parts.parts) == 2
+    part = hd(parts.parts)
+    assert part.etag
+    assert part.last_modified
+    assert part.number
+    assert part.size
   end
 end
