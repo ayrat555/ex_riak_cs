@@ -22,4 +22,15 @@ defmodule ExRiakCS.Request do
       |> HTTPoison.put(body, headers)
     %{status_code: code, body: body, headers: headers}
   end
+
+  def delete_request(path, params \\ %{}, headers \\ %{}) do
+    {:ok, %HTTPoison.Response{
+      status_code: code,
+      body: body,
+      headers: headers}} =
+      path
+      |> request_url("DELETE", headers, params)
+      |> HTTPoison.delete(headers)
+    %{status_code: code, body: body, headers: headers}
+  end
 end

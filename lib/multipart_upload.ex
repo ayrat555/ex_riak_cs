@@ -35,4 +35,12 @@ defmodule ExRiakCS.MultipartUpload do
       %{status_code: code, body: body} -> {:error, code, body}
     end
   end
+
+  def abort_multipart_upload(bucket, key, upload_id) do
+    path = "/#{bucket}/#{key}?uploadId=#{upload_id}"
+    case Request.delete_request(path) do
+      %{status_code: 204} -> :ok
+      %{status_code: code, body: body} -> {:error, code, body}
+    end
+  end
 end
