@@ -20,7 +20,7 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
       end)
       |> Enum.reverse
 
-    {:ok, file_etag} = MultipartUpload.complete_multipart_upload(@bucket, @key, upload_id, parts)
+    {:ok, _} = MultipartUpload.complete_multipart_upload(@bucket, @key, upload_id, parts)
   end
 
   test "aborts multipart upload" do
@@ -30,5 +30,18 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
 
   test "returns error on aborting not existing multipart upload" do
     {:error, 404, _} = MultipartUpload.abort_multipart_upload(@bucket, @key, "upload_id")
+  end
+
+  test "returns multipart uploads" do
+    {:ok, uploads} = MultipartUpload.list_multipart_uploads(@bucket)
+    assert uploads.bucket
+    upload = hd(uploads.uploads)
+    assert upload.initiated
+    assert upload.key
+    assert upload.upload_id
+    assert upload.owner.name
+    assert upload.owner.id
+    assert upload.initiator.name
+    assert upload.initiator.id
   end
 end

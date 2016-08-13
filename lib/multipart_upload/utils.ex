@@ -1,17 +1,35 @@
 defmodule ExRiakCS.MultipartUpload.Utils do
+  import SweetXml
 
   def parse_upload_id(xml) do
-    x_path =
-      "//InitiateMultipartUploadResult/UploadId/text()"
-      |> SweetXml.sigil_x()
-    xml |> SweetXml.xpath(x_path)
+    xml |> xpath(~x"//InitiateMultipartUploadResult/UploadId/text()")
   end
 
   def parse_file_etag(xml) do
-    x_path =
-      "//CompleteMultipartUploadResult/ETag/text()"
-      |> SweetXml.sigil_x()
-    xml |> SweetXml.xpath(x_path)
+    xml |> xpath(~x"//CompleteMultipartUploadResult/ETag/text()")
+  end
+
+  def parse_uploads(xml) do
+    xml |> xmap(
+      bucket:  ~x"//ListMultipartUploadsResult/Bucket/text()",
+      uploads: [
+        ~x"//ListMultipartUploadsResult/Upload"l,
+        key: ~x"./Key/text()",
+        upload_id: ~x"./UploadId/text()",
+        initiated: ~x"./Initiated/text()",
+        initiator: [
+          ~x"./Initiator",
+          id:  ~x"./ID/text()",
+          name:  ~x"./DisplayName/text()"
+        ],
+        owner: [
+           ~x"./Owner",
+          id:  ~x"./ID/text()",
+          name:  ~x"./DisplayName/text()"
+        ],
+        storage_class: ~x"./StorageClass/text()"
+      ]
+    )
   end
 
   def part_etag(headers) do
