@@ -16,9 +16,27 @@ defmodule ExRiakCS.Utils do
   end
 
   defp params_from_path(path) do
+    params_string =
+      path
+      |> String.split("?")
+      |> Enum.at(1)
+
+    case params_string do
+      nil ->
+        Map.new
+      string ->
+        string |> params
+    end
+  end
+
+  defp path_without_params(path) do
     path
     |> String.split("?")
-    |> Enum.at(1)
+    |> Enum.at(0)
+  end
+
+  defp params(params_string) do
+    params_string
     |> String.split("&")
     |> Enum.reduce(%{}, fn(string, map) ->
       case :binary.match(string, "=") do
@@ -30,11 +48,5 @@ defmodule ExRiakCS.Utils do
           Map.put(map, string, nil)
       end
     end)
-  end
-
-  defp path_without_params(path) do
-    path
-    |> String.split("?")
-    |> Enum.at(0)
   end
 end
