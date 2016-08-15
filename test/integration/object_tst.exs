@@ -9,7 +9,7 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
     file = "./test/files/file.mp3"
     key = "key#{:rand.uniform(1000)}"
     {:ok, _} = upload_object(file, @bucket, key, "audio/mp3")
-    :ok = Object.delete(@bucket, key)
+    {:ok, _} = Object.delete(@bucket, key)
   end
 
   test "gets file headers" do

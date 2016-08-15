@@ -1,6 +1,9 @@
 defmodule ExRiakCS.MultipartUpload.Utils do
   import SweetXml
 
+  @moduledoc false
+
+
   def parse_upload_id(xml) do
     xml |> xpath(~x"//InitiateMultipartUploadResult/UploadId/text()"s)
   end

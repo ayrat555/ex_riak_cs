@@ -1,6 +1,8 @@
 defmodule ExRiakCS.Request do
   import ExRiakCS.Utils
 
+  @moduledoc false
+
   def request(type, path, params \\ %{}, headers \\ %{}, body \\ []) do
     url = request_url(type, path, headers, params)
     {:ok, %HTTPoison.Response{

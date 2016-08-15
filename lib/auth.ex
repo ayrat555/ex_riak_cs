@@ -2,6 +2,8 @@ defmodule ExRiakCS.Auth do
   import ExRiakCS.Auth.Utils
   import ExRiakCS.Config
 
+  @moduledoc false
+
   def signature_params(path, request_type, headers \\ %{}, exp_date \\ expiration_date(exp_days)) do
     %{
       "AWSAccessKeyId": key_id,

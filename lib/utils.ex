@@ -2,6 +2,8 @@ defmodule ExRiakCS.Utils do
   alias ExRiakCS.Auth
   import ExRiakCS.Config
 
+  @moduledoc false
+
   def request_url(request_type, path, headers \\ %{}, params \\ %{}) do
     params = encode_params(request_type, path, headers, params)
     base_url <> path_without_params(path) <> "?" <> params

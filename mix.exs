@@ -30,7 +30,8 @@ defmodule ExRiakCS.Mixfile do
     [{:httpoison, "~> 0.9.0"},
      {:timex, "~> 3.0"},
      {:credo, "~> 0.4", only: [:dev, :test]},
-     {:sweet_xml, "~> 0.6.1"}
+     {:sweet_xml, "~> 0.6.1"},
+     {:ex_doc, "~> 0.12", only: :dev}
     ]
   end
 end

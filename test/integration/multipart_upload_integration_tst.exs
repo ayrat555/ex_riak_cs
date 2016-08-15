@@ -25,7 +25,7 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
 
   test "aborts multipart upload" do
     {:ok, upload_id} = MultipartUpload.initiate_multipart_upload(@bucket, @key, "audio/mpeg")
-    :ok = MultipartUpload.abort_multipart_upload(@bucket, @key, upload_id)
+    {:ok, _} = MultipartUpload.abort_multipart_upload(@bucket, @key, upload_id)
   end
 
   test "returns error on aborting not existing multipart upload" do

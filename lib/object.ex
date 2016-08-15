@@ -4,7 +4,7 @@ defmodule ExRiakCS.Object do
   def delete(bucket, key) do
     path = "/#{bucket}/#{key}"
     case Request.request(:delete, path) do
-      %{status_code: 204} -> :ok
+      %{status_code: 204} -> {:ok, nil}
       %{status_code: code, body: body} -> {:error, {code, body}}
     end
   end

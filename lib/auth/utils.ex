@@ -1,5 +1,7 @@
 defmodule ExRiakCS.Auth.Utils do
 
+  @moduledoc false
+
   def encrypt(string, key) do
     encrypted = :crypto.hmac(:sha, key, string)
     encrypted |> Base.encode64
