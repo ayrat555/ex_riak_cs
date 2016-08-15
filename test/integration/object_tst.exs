@@ -16,6 +16,6 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
     file = "./test/files/file.mp3"
     key = "key#{:rand.uniform(1000)}"
     {:ok, _} = upload_object(file, @bucket, key, "audio/mp3")
-    IO.inspect Object.head(@bucket, key)
+    {:ok, _} = Object.head(@bucket, key)
   end
 end

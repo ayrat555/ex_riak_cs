@@ -2,14 +2,18 @@ defmodule ExRiakCS.Utils do
   alias ExRiakCS.Auth
   import ExRiakCS.Config
 
-  def request_url(path, request_type, headers \\ %{}, params \\ %{}) do
-    params = encode_params(path, request_type, headers, params)
+  def request_url(request_type, path, headers \\ %{}, params \\ %{}) do
+    params = encode_params(request_type, path, headers, params)
     base_url <> path_without_params(path) <> "?" <> params
   end
 
-  defp encode_params(path, request_type, headers, params) do
+  defp encode_params(request_type, path, headers, params) do
+    type =
+      request_type
+      |> Atom.to_string
+      |> String.upcase
     path
-    |> Auth.signature_params(request_type, headers)
+    |> Auth.signature_params(type, headers)
     |> Map.merge(params, fn(_k, v1, _v2) -> v1 end)
     |> Map.merge(params_from_path(path), fn(_k, v1, _v2) -> v1 end)
     |> URI.encode_query()
