@@ -5,10 +5,17 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
 
   @bucket "test-bucket"
 
-  test "uploads file using multipart upload" do
+  test "deletes file" do
     file = "./test/files/file.mp3"
     key = "key#{:rand.uniform(1000)}"
     {:ok, _} = upload_object(file, @bucket, key, "audio/mp3")
     :ok = Object.delete(@bucket, key)
+  end
+
+  test "gets file headers" do
+    file = "./test/files/file.mp3"
+    key = "key#{:rand.uniform(1000)}"
+    {:ok, _} = upload_object(file, @bucket, key, "audio/mp3")
+    IO.inspect Object.head(@bucket, key)
   end
 end
