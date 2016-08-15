@@ -24,7 +24,7 @@ defmodule ExRiakCS.MultipartUpload do
 
   def signed_part_url(bucket, key, upload_id, number) do
     path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
-    request_url(path, "PUT")
+    request_url(:put, path)
   end
 
   def complete_multipart_upload(bucket, key, upload_id, parts) do

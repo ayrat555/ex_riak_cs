@@ -65,4 +65,12 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
     assert part.number
     assert part.size
   end
+
+  test "generates valid part url" do
+    {:ok, upload_id} = MultipartUpload.initiate_multipart_upload(@bucket, @key, "audio/mpeg")
+    url = ExRiakCS.MultipartUpload.signed_part_url(@bucket, @key, upload_id, 1)
+    {:ok, %HTTPoison.Response{
+      status_code: 200}} =
+    HTTPoison.request(:put , url, "555", %{})
+  end
 end
