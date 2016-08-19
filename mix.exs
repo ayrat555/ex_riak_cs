@@ -7,8 +7,21 @@ defmodule ExRiakCS.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     package: package(),
+     description: "Riak CS API wrapper for Elixir.",
+     source_url: "https://github.com/ayrat555/ex_riak_cs"
+   ]
   end
+
+  def package do
+   [
+     maintainers: ["Ayrat Badykov"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/ayrat555"}
+   ]
+  end
+
 
   # Configuration for the OTP application
   #
