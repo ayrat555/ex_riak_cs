@@ -41,7 +41,8 @@ defmodule ExRiakCS.MultipartUpload do
 
   def upload_part(bucket, key, upload_id, number, data) do
     path = "/#{bucket}/#{key}?partNumber=#{number}&uploadId=#{upload_id}"
-    case Request.request(:put, path, %{}, %{}, data) do
+    headers = %{"Content-Type" => ""}
+    case Request.request(:put, path, %{}, headers, data) do
       %{status_code: 200, headers: headers} -> {:ok, part_etag(headers)}
       %{status_code: code, body: body} -> {:error, {code, body}}
     end

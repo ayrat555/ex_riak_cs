@@ -71,6 +71,6 @@ defmodule ExRiakCS.MultipartUploadIntegrationTest do
     url = ExRiakCS.MultipartUpload.signed_part_url(@bucket, @key, upload_id, 1)
     {:ok, %HTTPoison.Response{
       status_code: 200}} =
-    HTTPoison.request(:put , url, "555", %{})
+    HTTPoison.request(:put , url, "555", %{"Content-Type" => ""})
   end
 end
