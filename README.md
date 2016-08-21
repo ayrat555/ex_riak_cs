@@ -18,7 +18,7 @@ end
 
 ## Documentation
 
-https://hex.pm/packages/ex_riak_cs
+https://hexdocs.pm/ex_riak_cs/api-reference.html
 
 ## Contributing
 
