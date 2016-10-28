@@ -3,7 +3,7 @@ defmodule ExRiakCS.Config do
   @moduledoc """
     A set of configuration parameters for Riak CS API
 
-    You can configure ex_riak_cs by setting configuration parameters in your Mix.Config files
+    You can configure ex_riak_cs by setting these configuration parameters in your Mix.Config files
 
         config :ex_riak_cs,
           key_id: "test_id", # your access key
