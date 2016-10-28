@@ -2,7 +2,7 @@
 
 ExRiakCs - simple elixir wrapper for [Riak CS API](http://docs.basho.com/riak/cs/2.1.1/references/apis/storage/)
 
-NOTE: not all riak cs api methods are available but new methods can be easily added (read Contributing section).
+NOTE: not all riak cs api methods are available, but new methods can be easily added (read Contributing section).
 
 ## Installation
 
