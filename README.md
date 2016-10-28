@@ -26,7 +26,7 @@ Start by forking this repo
 
 Pull requests are greatly appreciated
 
-New methods can be easily added. For example, if you want to add the [GET Object method](http://docs.basho.com/riak/cs/2.1.1/references/apis/storage/s3/get-object/), you should send get request using request method from Request module, passing path to your object and then pattern match the result
+New methods can be easily added. For example, if you want to add the [GET Object method](http://docs.basho.com/riak/cs/2.1.1/references/apis/storage/s3/get-object/), you should send get request using request method from the Request module, passing path to your object and then pattern match the result
 
 ```elixir
 def get(bucket, key) do
