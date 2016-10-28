@@ -14,7 +14,7 @@ defmodule ExRiakCS.Config do
 
     Additional parameters
 
-          exp_days: 2 # number of days a signed upload part url will be valid. default value = 1
+          exp_days: 2 # number of days, during which a signed upload part url will be valid. default value = 1
           acl: "private" # created file's acl. default value = "public-read"
   """
 
