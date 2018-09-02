@@ -3,7 +3,7 @@ defmodule ExRiakCS.Config do
   @moduledoc """
     A set of configuration parameters for Riak CS API
 
-    You can configure ex_riak_cs by setting configuration parameters in your Mix.Config files
+    You can configure ex_riak_cs by setting these configuration parameters in your Mix.Config files
 
         config :ex_riak_cs,
           key_id: "test_id", # your access key
@@ -14,8 +14,8 @@ defmodule ExRiakCS.Config do
 
     Additional parameters
 
-          exp_days: 2 # number of days a signed upload part url will be valid. default value - 1
-          acl: "private" # created file's acl. default value - "public-read"
+          exp_days: 2 # number of days, during which a signed upload part url will be valid. default value = 1
+          acl: "private" # created file's acl. default value = "public-read"
   """
 
   def secret_key do
